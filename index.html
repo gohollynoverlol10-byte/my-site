@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M music at 25:00</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background: radial-gradient(circle at 30% 20%, #3b0070, #000);
+color:#fff;
+}
+
+/* ВХОД */
+.overlay{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:10;
+cursor:pointer;
+}
+
+.overlay h1{
+font-size:22px;
+opacity:.6;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:.2}
+50%{opacity:1}
+100%{opacity:.2}
+}
+
+/* ФОН СВЕЧЕНИЕ */
+.bg-glow{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle at 50% 50%, rgba(168,85,247,.25), transparent 70%);
+z-index:-2;
+}
+
+/* КАРТОЧКА */
+.card{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(.8);
+opacity:0;
+padding:40px;
+width:340px;
+max-width:90vw;
+border-radius:30px;
+background:rgba(120,0,200,.2);
+backdrop-filter:blur(25px);
+box-shadow:0 0 80px rgba(168,85,247,.6);
+text-align:center;
+transition:1s;
+}
+
+/* ЭФФЕКТ НАВЕДЕНИЯ */
+.card:hover{
+transform:translate(-50%,-50%) scale(1.03);
+}
+
+/* НИК */
+.nickname{
+font-size:clamp(14px,5vw,24px);
+white-space:nowrap;
+text-shadow:0 0 20px #a855f7,0 0 40px #9333ea;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #a855f7}
+to{text-shadow:0 0 40px #fff}
+}
+
+/* ЛИНИЯ */
+.line{
+margin:20px 0;
+height:2px;
+background:linear-gradient(90deg, transparent, #c084fc, transparent);
+}
+
+/* ОПИСАНИЕ */
+.desc{
+font-size:13px;
+opacity:.85;
+line-height:1.6;
+}
+
+/* ПАРТИКЛЫ */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" onclick="enter()">
+<h1>click to enter...</h1>
+</div>
+
+<div class="bg-glow"></div>
+
+<canvas id="particles"></canvas>
+
+<div class="card" id="card">
+<div class="nickname">Prosgraming1981</div>
+<div class="line"></div>
+<div class="desc">
+I really like music, especially from the singer Dora, 
+and I also watch the Russian TV series Kitchen.
+</div>
+</div>
+
+<script>
+function enter(){
+document.querySelector(".overlay").style.display="none";
+
+const card=document.getElementById("card");
+card.style.opacity="1";
+card.style.transform="translate(-50%,-50%) scale(1)";
+}
+
+/* ПАРТИКЛЫ */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let p=[];
+
+for(let i=0;i<150;i++){
+p.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+dx:(Math.random()-.5)*0.7,
+dy:(Math.random()-.5)*0.7
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<p.length;i++){
+let a=p[i];
+
+ctx.fillStyle="#c084fc";
+ctx.fillRect(a.x,a.y,2,2);
+
+a.x+=a.dx;
+a.y+=a.dy;
+
+if(a.x<0||a.x>canvas.width)a.dx*=-1;
+if(a.y<0||a.y>canvas.height)a.dy*=-1;
+}
+
+requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+  </html>
